@@ -1,15 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Router from "./routes/Router";
-import StyleComponent from "./StyleComponent";
-import TypeScript from "./TypeScript";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "./atoms";
+import ToDoList from "./ToDoList";
 
-/* Reset code */
-// createGlobalStyle에서 지정한 스타일은 애플리케이션 전역에 적용됨
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Stylish&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
@@ -75,29 +66,11 @@ color:inherit;
 `;
 
 function App() {
-  // ThemeProvider 를 index.tsx에서 App.tsx로 옮긴 이유
-  // -> 애플리케이션의 state를 기반으로 테마를 변경하기 위해
-  // -> 보통 동적으로 테마 변경을 하기 위해서는 App.tsx에서 처리하는 게 일반적
-
-  // const [isDark, setIsDark] = useState(false);
-  // const toggleDark = () => setIsDark((current) => !current);
-  // 현재 true면 false, false면 true
-
-  const isDark = useRecoilValue(isDarkAtom);
-
   return (
-    <div>
-      {/* 
-      <StyleComponent></StyleComponent> 
-      <TypeScript></TypeScript>
-      */}
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <GlobalStyle></GlobalStyle>
-        <Router></Router>
-        {/* <Router isDark={isDark} toggleDark={toggleDark}></Router> */}
-        <ReactQueryDevtools initialIsOpen={true}></ReactQueryDevtools>
-      </ThemeProvider>
-    </div>
+    <>
+      <GlobalStyle></GlobalStyle>
+      <ToDoList></ToDoList>
+    </>
   );
 }
 

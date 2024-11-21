@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import App from "./App";
 import { RecoilRoot } from "recoil";
+import { darkTheme } from "./theme";
 
 const queryClient = new QueryClient();
 
@@ -15,11 +16,9 @@ if (!container) {
 
 const root = ReactDOM.createRoot(container);
 root.render(
-  // <React.StrictMode>
   <RecoilRoot>
-    <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={darkTheme}>
       <App />
-    </QueryClientProvider>
+    </ThemeProvider>
   </RecoilRoot>
-  // </React.StrictMode>
 );
