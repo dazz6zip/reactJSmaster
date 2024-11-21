@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES6", // JavaScript의 버전 (ECMAScript 2015 이상 추천)
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // 브라우저 및 최신 JavaScript 기능 포함
+    "jsx": "react-jsx", // React JSX 지원
+
+    /* Modules */
+    "module": "ESNext", // 모듈 시스템 (웹팩과 같은 번들러에 적합)
+    "moduleResolution": "node", // Node.js 모듈 해석 방식
+    "baseUrl": "./", // 프로젝트 루트 디렉토리를 기준으로 모듈 해석
+    "paths": {
+      /* 필요한 경우 경로 별칭 추가 */
+    },
+
+    /* Type Checking */
+    "strict": true, // 모든 엄격한 타입 검사 옵션 활성화
+    "esModuleInterop": true, // CommonJS와 ES Module 간의 호환성
+    "skipLibCheck": true, // `node_modules`의 `.d.ts` 파일 검사 건너뜀
+    "forceConsistentCasingInFileNames": true, // 파일 이름의 대소문자 일관성 강제
+
+    /* Emit */
+    "sourceMap": true, // 소스 맵 생성
+    "outDir": "./dist", // 컴파일된 파일의 출력 디렉토리
+
+    /* JavaScript Support */
+    "allowJs": true, // JavaScript 파일 허용
+    "checkJs": false, // JavaScript 파일에서 타입 검사 비활성화
+    "resolveJsonModule": true, // JSON 파일 모듈 허용
+
+    /* Experimental Options */
+    "useDefineForClassFields": true
+  },
+  "include": ["src"], // 컴파일할 파일 포함 경로
+  "exclude": ["node_modules", "dist"] // 컴파일에서 제외할 디렉토리
+}
