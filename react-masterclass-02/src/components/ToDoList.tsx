@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import {
+  atom,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 
 // function ToDoList() {
 //   const [toDo, setToDo] = useState("");
@@ -36,6 +42,11 @@ import { useForm } from "react-hook-form";
 //   );
 // }
 
+const toDoState = atom({
+  key: "toDo",
+  default: [],
+});
+
 interface IForm {
   email: string;
   firstName: string;
@@ -47,6 +58,12 @@ interface IForm {
 }
 
 function ToDoList() {
+  // const value = useRecoilValue(toDoState); // atom 값 가져오기
+  // const modFn = useSetRecoilState(toDoState); // atom 값 수정하기
+
+  // 가져오고 수정하는 함수 둘 다 만들기
+  const [toDos, setToDos] = useRecoilState(toDoState);
+
   const {
     register,
     handleSubmit,
@@ -76,10 +93,12 @@ function ToDoList() {
     setError("extraError", { message: "Server offline." });
   };
 
-  console.log(errors);
+  // console.log(errors);
 
   return (
     <div>
+      <h1>투두리스트</h1>
+      <hr />
       <form
         style={{ display: "flex", flexDirection: "column" }}
         onSubmit={handleSubmit(onValid)}
@@ -140,6 +159,7 @@ function ToDoList() {
         <button>Add</button>
         <span>{errors?.extraError?.message as string}</span>
       </form>
+      <ul></ul>
     </div>
   );
 }

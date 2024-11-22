@@ -1,5 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import ToDoList from "./ToDoList";
+import ToDoList from "./components/ToDoList";
+import ToDoListFinal from "./components/ToDoList-final";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Stylish&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
@@ -69,7 +70,8 @@ function App() {
   return (
     <>
       <GlobalStyle></GlobalStyle>
-      <ToDoList></ToDoList>
+      {/* <ToDoList></ToDoList> */}
+      <ToDoListFinal></ToDoListFinal>
     </>
   );
 }
