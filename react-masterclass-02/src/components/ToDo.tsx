@@ -22,7 +22,13 @@ function ToDo({ text, category, id }: IToDo) {
 
       // 현재 저장되어 있는 모든 ToDos를 순회하여 ToDoList-final.tsx에서 받은 id와 같은 자료 찾기
 
-      return oldToDos;
+      // 업데이트(수정)가 아니라 새로운 배열을 만드는 방식으로 반환
+      // 수정할 targetIndex를 기준으로 그 이전 자료와 그 이후 자료로 분할, 가운데에 수정할 데이터를 삽입하는 방식
+      return [
+        ...oldToDos.slice(0, targetIndex),
+        newToDo,
+        ...oldToDos.slice(targetIndex + 1),
+      ];
     });
   };
 
