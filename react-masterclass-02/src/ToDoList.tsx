@@ -43,6 +43,7 @@ interface IForm {
   username: string;
   password: string;
   password1: string;
+  extraError?: string;
 }
 
 function ToDoList() {
@@ -50,6 +51,7 @@ function ToDoList() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IForm>({
     // 여기서 제네릭 : Form에서 입력받아 검증할 key들의 type
     defaultValues: {
@@ -59,9 +61,19 @@ function ToDoList() {
   // watch : form 입력값들의 변화를 관찰할 수 있게 해 주는 함수
   // handleSubmit : validation
   // formState : error 등의 상태 저장
+  // setError : 발생하는 문제에 따라 추가적으로 에러를 설정할 수 있게 함
 
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: IForm) => {
+    if (data.password !== data.password1) {
+      // 비밀번호 확인 실패할 경우
+      setError(
+        "password1",
+        { message: "Password are not the same" },
+        { shouldFocus: true }
+        // 문제가 생긴 곳으로
+      );
+    }
+    setError("extraError", { message: "Server offline." });
   };
 
   console.log(errors);
@@ -87,7 +99,20 @@ function ToDoList() {
         <span>{errors?.email?.message as string}</span>
         {/* input 태그에서 지원하는 required 보다 안전 (html 태그는 브라우저에서 수정하기 너무도 쉽기 때문에) */}
         <input
-          {...register("firstName", { required: "write here", minLength: 10 })}
+          {...register("firstName", {
+            required: "write here",
+            // validate: (value) => true, // firstName이 항상 검사를 통과함
+
+            // validate: (value) =>
+            //   value.includes("purin") ? "no purin allowed" : true,
+            // react-hook-form에서 문자열 반환 -> 해당 에러 반환
+
+            validate: {
+              noPurin: (value) => (value.includes("purin") ? "No purin" : true),
+              // 여기서 서버와 통신해서 검증할 수도 있음
+              noKitty: (value) => (value.includes("kitty") ? "No kitty" : true),
+            },
+          })}
           placeholder="First Name"
         ></input>
         <span>{errors?.firstName?.message as string}</span>
@@ -102,7 +127,7 @@ function ToDoList() {
         ></input>
         <span>{errors?.username?.message as string}</span>
         <input
-          {...register("password", { required: "write here" })}
+          {...register("password", { required: "write here", minLength: 10 })}
           placeholder="Password"
         ></input>
         <span>{errors?.password?.message as string}</span>
@@ -113,6 +138,7 @@ function ToDoList() {
         <span>{errors?.password1?.message as string}</span>
         {/* register("toDo")의 반환값을 분해하여 properties로 */}
         <button>Add</button>
+        <span>{errors?.extraError?.message as string}</span>
       </form>
     </div>
   );
