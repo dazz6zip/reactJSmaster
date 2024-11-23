@@ -1,15 +1,21 @@
 import { atom, selector } from "recoil";
 // selector : atom의 output을 변형시키는 도구
 
+export enum Categories {
+  // 그냥 "TO_DO", "DOING" 이런 식으로 선언하면 index(0, 1...)로 읽어서 문자열로 지정해 줘야 함
+  TO_DO = "TO_DO",
+  DOING = "DOING",
+  DONE = "DONE",
+}
 export interface IToDo {
   text: string;
   id: number;
-  category: "TO_DO" | "DOING" | "DONE";
+  category: Categories;
 }
 
-export const categoryState = atom({
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TO_DO",
+  default: Categories.TO_DO,
 });
 
 // 전역으로 쓸 atom 선언 (key : toDo, 기본값 : 빈 배열)

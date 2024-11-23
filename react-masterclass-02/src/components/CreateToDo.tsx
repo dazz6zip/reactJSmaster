@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
-import { toDoState } from "./atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { categoryState, toDoState } from "./atoms";
 
 export interface IForm {
   toDo: string;
@@ -12,10 +12,11 @@ function CreateToDo() {
   // 유저에게 입력받아 관리할 값에 대한 타입 -> IForm
   // useForm을 사용하여 register로 관리, handleSubmit으로 제출 관리, setValue로 입력값 변경
 
+  const newCategory = useRecoilValue(categoryState);
   const handleValid = ({ toDo }: IForm) => {
     // IForm을 구조분해하여 toDo 값 사용
     setToDos((oldToDos) => [
-      { text: toDo, id: Date.now(), category: "TO_DO" },
+      { text: toDo, id: Date.now(), category: newCategory },
       // toDo는 IToDo[] 타입이므로 IToDo 요소들을 하나씩 채워 준 배열을 생성한 뒤
       ...oldToDos,
       // 기존 데이터와 병합함
