@@ -7,6 +7,11 @@ export interface IToDo {
   category: "TO_DO" | "DOING" | "DONE";
 }
 
+export const categoryState = atom({
+  key: "category",
+  default: "TO_DO",
+});
+
 // 전역으로 쓸 atom 선언 (key : toDo, 기본값 : 빈 배열)
 export const toDoState = atom<IToDo[]>({
   // IToDo 타입으로 이루어진 배열이 들어올 수 있다는 뜻
@@ -18,12 +23,11 @@ export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
     const toDos = get(toDoState);
-    return [
-      // toDos 데이터를 category별로 나눈 배열 return
-      toDos.filter((toDo) => toDo.category === "TO_DO"),
-      toDos.filter((toDo) => toDo.category === "DOING"),
-      toDos.filter((toDo) => toDo.category === "DONE"),
-    ];
+    // get function으로 selector 내부의 여러 atom을 가져올 수 있음
+
+    const category = get(categoryState);
+
+    return toDos.filter((toDo) => toDo.category === category);
     // return 값이 selector의 value
   },
 });
