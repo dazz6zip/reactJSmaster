@@ -25,6 +25,7 @@ export const toDoState = atom<IToDo[]>({
   default: [],
 });
 
+// atom이 아니라 selector를 사용하여 데이터는 수정하지 않고 가져오고 싶은 자료만 가져올 수 있음
 export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
