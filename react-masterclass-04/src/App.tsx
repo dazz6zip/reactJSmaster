@@ -9,13 +9,23 @@ function App() {
       <div>
         {/* Droppable, Draggable 의 children은 function 이어야 함 */}
         <Droppable droppableId="one">
-          {() => (
-            <ul>
+          {(magic) => (
+            <ul ref={magic.innerRef} {...magic.droppableProps}>
               <Draggable draggableId="first" index={0}>
-                {() => <li>One</li>}
+                {(magic) => (
+                  <li ref={magic.innerRef} {...magic.draggableProps}>
+                    <span {...magic.dragHandleProps}>🎈</span>
+                    One
+                  </li>
+                )}
               </Draggable>
               <Draggable draggableId="second" index={1}>
-                {() => <li>Two</li>}
+                {(magic) => (
+                  <li ref={magic.innerRef} {...magic.draggableProps}>
+                    <span {...magic.dragHandleProps}>🎈</span>
+                    Two
+                  </li>
+                )}
               </Draggable>
             </ul>
           )}
