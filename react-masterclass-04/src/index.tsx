@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { QueryClient } from "react-query";
 
 import App from "./App";
 import { RecoilRoot } from "recoil";
+import { darkTheme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Stylish&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
@@ -58,7 +59,10 @@ table {
 }
 body {
   font-family: "Ubuntu", sans-serif;
-
+  font-family: "Ubuntu", sans-serif;
+  background-color:${(props) => props.theme.bgColor};
+  color: black;
+  line-height: 1.2;
 }
 * {
 box-sizing: border-box;
@@ -79,7 +83,9 @@ if (!container) {
 const root = ReactDOM.createRoot(container);
 root.render(
   <RecoilRoot>
-    <GlobalStyle></GlobalStyle>
-    <App />
+    <ThemeProvider theme={darkTheme}>
+      <GlobalStyle></GlobalStyle>
+      <App />
+    </ThemeProvider>
   </RecoilRoot>
 );
