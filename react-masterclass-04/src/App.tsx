@@ -45,7 +45,24 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
   // 작동이 끝났을 떄 실행되는 함수
-  const onDragEnd = ({ destination, source }: DropResult) => {};
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) {
+      // 유저가 드래그 후 같은 자리에 둘 경우
+      return;
+    }
+
+    setToDos((oldToDos) => {
+      const toDosCopy = [...oldToDos];
+
+      // 1) source.index 아이템 삭제하기
+      toDosCopy.splice(source.index, 1);
+
+      // 2) destination.index 아이템 삽입하기
+      toDosCopy.splice(destination?.index, 0, draggableId);
+
+      return toDosCopy;
+    });
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -56,7 +73,7 @@ function App() {
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable draggableId={toDo} index={index} key={index}>
+                  <Draggable draggableId={toDo} index={index} key={toDo}>
                     {(magic) => (
                       <Card
                         ref={magic.innerRef}
