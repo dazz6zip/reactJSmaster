@@ -1,5 +1,12 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { toDoState } from "./atoms";
 
 // https://www.npmjs.com/package/react-beautiful-dnd
 
@@ -34,10 +41,12 @@ const Card = styled.div`
   margin-bottom: 5px;
 `;
 
-const toDos = ["a", "b", "c", "d", "e", "f"];
-
 function App() {
-  const onDragEnd = () => {};
+  const [toDos, setToDos] = useRecoilState(toDoState);
+
+  // 작동이 끝났을 떄 실행되는 함수
+  const onDragEnd = ({ destination, source }: DropResult) => {};
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
