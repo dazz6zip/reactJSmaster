@@ -7,6 +7,7 @@ import {
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
+import DragabbleCard from "./Components/DragabbleCard";
 
 // https://www.npmjs.com/package/react-beautiful-dnd
 
@@ -32,13 +33,6 @@ const Board = styled.div`
   padding: 20px 10px;
   border-radius: 5px;
   min-height: 200px;
-`;
-
-const Card = styled.div`
-  background-color: ${(props) => props.theme.cardColor};
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-bottom: 5px;
 `;
 
 function App() {
@@ -73,17 +67,11 @@ function App() {
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable draggableId={toDo} index={index} key={toDo}>
-                    {(magic) => (
-                      <Card
-                        ref={magic.innerRef}
-                        {...magic.dragHandleProps}
-                        {...magic.draggableProps}
-                      >
-                        {toDo}
-                      </Card>
-                    )}
-                  </Draggable>
+                  <DragabbleCard
+                    key={toDo}
+                    index={index}
+                    toDo={toDo}
+                  ></DragabbleCard>
                 ))}
                 {magic.placeholder}
               </Board>
