@@ -27,20 +27,21 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
   // 작동이 끝났을 떄 실행되는 함수
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-    if (!destination) {
-      // 유저가 드래그 후 같은 자리에 둘 경우
-      return;
+  const onDragEnd = (info: DropResult) => {
+    console.log(info);
+    const { destination, draggableId, source } = info;
+    if (destination?.droppableId === source.droppableId) {
+      // 같은 보드 내 이동
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: boardCopy,
+        };
+      });
     }
-
-    // setToDos((oldToDos) => {
-    // const toDosCopy = [...oldToDos];
-    // // 1) source.index 아이템 삭제하기
-    // toDosCopy.splice(source.index, 1);
-    // // 2) destination.index 아이템 삽입하기
-    // toDosCopy.splice(destination?.index, 0, draggableId);
-    // return toDosCopy;
-    // });
   };
 
   return (
