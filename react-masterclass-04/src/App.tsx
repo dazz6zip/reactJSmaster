@@ -30,6 +30,9 @@ function App() {
   const onDragEnd = (info: DropResult) => {
     console.log(info);
     const { destination, draggableId, source } = info;
+    if (!destination) {
+      return;
+    }
     if (destination?.droppableId === source.droppableId) {
       // 같은 보드 내 이동
       setToDos((allBoards) => {
@@ -39,6 +42,22 @@ function App() {
         return {
           ...allBoards,
           [source.droppableId]: boardCopy,
+        };
+      });
+    }
+    if (destination?.droppableId !== source.droppableId) {
+      // 다른 보드 이동
+      setToDos((allBoards) => {
+        // 움직임 시작 보드 복사본
+        const sourceBoard = [...allBoards[source.droppableId]];
+        // 움직임 끝 보드 복사본
+        const destinatinoBoard = [...allBoards[destination.droppableId]];
+        sourceBoard.splice(source.index, 1);
+        destinatinoBoard.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinatinoBoard,
         };
       });
     }
