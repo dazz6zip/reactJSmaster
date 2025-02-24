@@ -1,6 +1,7 @@
 import { Droppable } from "react-beautiful-dnd";
 import DragabbleCard from "./DragabbleCard";
 import styled from "styled-components";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.boardColor};
@@ -41,15 +42,25 @@ const Area = styled.div<IAreaProps>`
 `;
 
 function Board({ toDos, boardId }: IBoardProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const onClick = () => {
+    inputRef.current?.focus();
+    setTimeout(() => {
+      inputRef.current?.blur();
+    }, 1000);
+  };
   return (
     <Wrapper>
       <Title>{boardId}</Title>
+      <input ref={inputRef} placeholder="grab me" />
+      <button onClick={onClick}>click me</button>
       <Droppable droppableId={boardId}>
         {(magic, snapshot) => (
           <Area
             isDraggingOver={snapshot.isDraggingOver}
             isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
             ref={magic.innerRef}
+            // ref : js로부터 html 요소 가져와서 사용
             {...magic.droppableProps}
           >
             {toDos.map((toDo, index) => (
