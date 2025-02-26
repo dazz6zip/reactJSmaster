@@ -70,13 +70,22 @@ function Board({ toDos, boardId }: IBoardProps) {
         ></input>
       </Form>
       <Droppable droppableId={boardId}>
+        {/* Droppable : 드래그할 수 있는 영역 */}
         {(magic, snapshot) => (
+          // magic, snapshot : Droppable 에서 제공하는 함수형 컴포넌트 파라미터
+          // 정해진 이름 x, 순서로 정해짐
           <Area
             isDraggingOver={snapshot.isDraggingOver}
+            // 현재 드래그 중인 카드가 이 영역 위에 있는지 여부 (boolean)
             isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
+            // 이 보드에서 드래그가 시작되었는지 여부 (boolean)
             ref={magic.innerRef}
             // ref : js로부터 html 요소 가져와서 사용
+            // 이 영역을 React가 참조할 수 있도록 연결
             {...magic.droppableProps}
+            // Droppable 에서 전달해 주는 기본 이벤트 핸들러를 적용해야 정상 작동됨
+            // 드래그 가능 영역임을 인식하게만 하면 됨
+            // 드래그 핸들링 할 필요 없음
           >
             {toDos.map((toDo, index) => (
               <DragabbleCard

@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "react-beautiful-dnd": "^13.1.1",
+    "react-hook-form": "^7.54.2",
+    "recoil": "^0.7.7",
+    "styled-components": "^6.1.15"
+  },
+  "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/recoil": "^0.0.1",
+    "@types/styled-components": "^5.1.34"
+  }
+}

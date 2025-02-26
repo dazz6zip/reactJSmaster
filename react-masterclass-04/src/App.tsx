@@ -30,6 +30,9 @@ function App() {
   const onDragEnd = (info: DropResult) => {
     console.log(info);
     const { destination, draggableId, source } = info;
+    // destination (droppableId 보드 아이디, index 위치) : 목적지
+    // draggableId : 드래그 중인 요소의 아이디
+    // source (droppableId 보드 아이디, index 위치 : 출발지
     if (!destination) {
       return;
     }
@@ -39,6 +42,7 @@ function App() {
         const boardCopy = [...allBoards[source.droppableId]];
         boardCopy.splice(source.index, 1);
         boardCopy.splice(destination?.index, 0, draggableId);
+        // splice 0 : 삽입
         return {
           ...allBoards,
           [source.droppableId]: boardCopy,
