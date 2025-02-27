@@ -40,8 +40,10 @@ function App() {
       // 같은 보드 내 이동
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
+        const taskObj = boardCopy[source.index];
+        // boardCopy에서 지우기 전에 taskObj에 임시로 저장해 두기
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
+        boardCopy.splice(destination?.index, 0, taskObj);
         // splice 0 : 삽입
         return {
           ...allBoards,
@@ -54,10 +56,11 @@ function App() {
       setToDos((allBoards) => {
         // 움직임 시작 보드 복사본
         const sourceBoard = [...allBoards[source.droppableId]];
+        const taskObj = sourceBoard[source.index];
         // 움직임 끝 보드 복사본
         const destinatinoBoard = [...allBoards[destination.droppableId]];
         sourceBoard.splice(source.index, 1);
-        destinatinoBoard.splice(destination?.index, 0, draggableId);
+        destinatinoBoard.splice(destination?.index, 0, taskObj);
         return {
           ...allBoards,
           [source.droppableId]: sourceBoard,

@@ -3,7 +3,8 @@ import DragabbleCard from "./DragabbleCard";
 import styled from "styled-components";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { ITodo } from "src/atoms";
+import { ITodo, toDoState } from "src/atoms";
+import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.boardColor};
@@ -55,8 +56,20 @@ interface IForm {
 }
 
 function Board({ toDos, boardId }: IBoardProps) {
+  const setToDos = useSetRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
+    const newTodo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    setToDos((allBoard) => {
+      // 수정되지 않는 보드나 수정되는 보드의 다른 요소들은 그대로 두고 추가만 하기
+      return {
+        ...allBoard,
+        [boardId]: [newTodo, ...allBoard[boardId]],
+      };
+    });
     setValue("toDo", "");
   };
   return (
