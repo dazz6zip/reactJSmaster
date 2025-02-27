@@ -55,6 +55,9 @@ interface IForm {
   toDo: string;
 }
 
+// board 옮겨지게 (board 순서 추적 atom 생성해야 됨)
+// board 추가할 수 있게
+
 function Board({ toDos, boardId }: IBoardProps) {
   const setToDos = useSetRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();

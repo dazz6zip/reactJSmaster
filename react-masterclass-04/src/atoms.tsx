@@ -17,3 +17,10 @@ export const toDoState = atom<IToDoState>({
     DONE: [],
   },
 });
+
+// export const boardState = atom<>({
+//   key: "board",
+//   default: {
+
+//   }
+// })
