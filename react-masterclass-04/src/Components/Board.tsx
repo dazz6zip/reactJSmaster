@@ -3,15 +3,18 @@ import DragabbleCard from "./DragabbleCard";
 import styled from "styled-components";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { ITodo } from "src/atoms";
+import { ITodo, toDoState } from "src/atoms";
+import { useSetRecoilState } from "recoil";
 
-const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.boardColor};
+const Wrapper = styled.div<{ trash: boolean }>`
+  background-color: ${(props) =>
+    props.trash ? "#a4b3b9" : props.theme.boardColor};
   padding-top: 10px;
   border-radius: 5px;
   min-height: 200px;
   display: flex;
   flex-direction: column;
+  padding: 20px;
 `;
 
 const Title = styled.h2`
@@ -40,7 +43,6 @@ const Area = styled.div<IAreaProps>`
       : "transparent"};
   flex-grow: 1;
   transition: background-color 0.3s ease-in-out;
-  padding: 20px;
 `;
 
 const Form = styled.form`
@@ -50,24 +52,48 @@ const Form = styled.form`
   }
 `;
 
+const Input = styled.input<{ trash: boolean }>`
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: #74b9ff 2px solid;
+  display: ${(props) => (props.trash ? "none" : "block")};
+`;
+
 interface IForm {
   toDo: string;
 }
 
 function Board({ toDos, boardId }: IBoardProps) {
+  const setToDos = useSetRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
+    const newTodo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    setToDos((allBoard) => {
+      const temp = {
+        ...allBoard,
+        [boardId]: [newTodo, ...allBoard[boardId]],
+      };
+
+      localStorage.setItem("todolist", JSON.stringify(temp));
+
+      return temp;
+    });
     setValue("toDo", "");
   };
   return (
-    <Wrapper>
+    <Wrapper trash={boardId === "TRASH" ? true : false}>
       <Title>{boardId}</Title>
       <Form onSubmit={handleSubmit(onValid)}>
-        <input
+        <Input
+          trash={boardId === "TRASH" ? true : false}
           {...register("toDo", { required: true })}
           type="text"
           placeholder={`Add task on ${boardId}`}
-        ></input>
+        ></Input>
       </Form>
       <Droppable droppableId={boardId}>
         {/* Droppable : 드래그할 수 있는 영역 */}

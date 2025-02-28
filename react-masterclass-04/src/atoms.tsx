@@ -15,5 +15,11 @@ export const toDoState = atom<IToDoState>({
     TODO: [],
     DOING: [],
     DONE: [],
+    TRASH: [],
   },
+});
+
+export const boardState = atom<string[]>({
+  key: "board",
+  default: ["TODO", "DOING", "DONE", "TRASH"],
 });
